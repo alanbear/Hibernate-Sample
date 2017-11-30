@@ -40,11 +40,22 @@ public class HibernateTest {
 
 		// 開啟Session，相當於開啟JDBC的Connection
 		Session session = sessionFactory.openSession();
-		// Transaction表示一組會話操作
+
+		// Transaction begin
 		Transaction tx= session.beginTransaction();
-		// 將物件映射至資料庫表格中儲存
-		session.save(user);
-		tx.commit();
+
+		// 取得物件
+        session.createQuery("from model.Employee").setComment("test comment").list();
+        session.get(Employee.class,1);
+
+        // 將物件映射至資料庫表格中儲存
+        session.save(user);
+
+        // get from session
+        session.get(Employee.class,1);
+
+        // Transaction commit
+        tx.commit();
 
 		session.close();
         sessionFactory.close();
